@@ -48,8 +48,8 @@ class BasicHttpServer(http.server.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "application/json")
             self.end_headers()
-
-          self.wfile.write(json.dumps(data_set).encode('utf-8'))
+            # Convert python dict into JSON and send it
+            self.wfile.write(json.dumps(data_set).encode('utf-8'))
 
         elif self.path == "/info":
             data_set = {
@@ -59,8 +59,8 @@ class BasicHttpServer(http.server.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "application/json")
             self.end_headers()
-
-      self.wfile.write(json.dumps(data_set).encode('utf-8'))
+            # Convert python dict into JSON and send it
+            self.wfile.write(json.dumps(data_set).encode('utf-8'))
 
         else:
             self.send_response(404)
@@ -69,5 +69,6 @@ class BasicHttpServer(http.server.BaseHTTPRequestHandler):
             self.wfile.write(b"Endpoint not found")
 
 
+# Set up the server to listen on the specified port
 with socketserver.TCPServer(("", PORT), BasicHttpServer) as httpd:
     httpd.serve_forever()
